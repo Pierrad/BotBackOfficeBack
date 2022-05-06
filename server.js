@@ -6,7 +6,7 @@ const app = require("./conf/express");
 const mongo = require("./conf/mongo");
 const logger = require("./conf/logger");
 
-const routerUtils = require("./utils/routerUtils");
+const routerUtils = require("./utils/router");
 
 const auth = require("./router/authRoute");
 const file = require("./router/fileRoute");
