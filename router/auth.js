@@ -10,4 +10,8 @@ router.post("/login", function(req, res) {
     UserCtrl.login(req, res);
 });
 
+router.get("/check", function(req, res) {
+    UserCtrl.check(req, res);
+});
+
 module.exports = router;

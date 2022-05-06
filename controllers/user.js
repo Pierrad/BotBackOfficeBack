@@ -88,7 +88,6 @@ exports.register = async (req, res) => {
 
       let newUser = new User(
           {
-              "publicId": Utils.generateId(30),
               "email": email.toLowerCase(),
               "password": hashedPassword,
           }
@@ -182,3 +181,47 @@ exports.login = async (req, res) => {
       );
   }
 };
+
+
+exports.check = async (req, res) => {
+    try {
+        let token = req.headers.authorization;
+        let user = await User.findOne({ "token.token": token });
+
+        if (!user) {
+            return res.status(404).json(
+                {
+                    "success": false,
+                    "data": {
+                        "message": "User not found"
+                    }
+                }
+            );
+        }
+
+        user.token.token = Utils.generateId(100);
+        user.token.expiration = Date.now() + USER_TOKEN_EXPIRATION;
+        await user.save();
+
+        res.status(200).json(
+            {
+                "success": true,
+                "data": {
+                    "message": "User exists",
+                    "user": user
+                }
+            }
+        );
+  
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json(
+            {
+                "success": false,
+                "data": {
+                    "message": "Internal error"
+                }
+            }
+        );
+    }
+  };

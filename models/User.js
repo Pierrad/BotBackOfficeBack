@@ -3,11 +3,6 @@ const mongoose = require("mongoose")
 const { Schema } = mongoose
 
 const userSchema = new Schema({
-  publicId: {
-    type: String,
-    required: true,
-    unique: true,
-  },
   email: {
     type: String,
     match: /^\S+@\S+\.\S+$/,
