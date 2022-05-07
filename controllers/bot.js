@@ -1,13 +1,24 @@
 const Bot = require("../models/Bot")
+const checkAuthorization = require("../utils/auth").checkAuthorization
+
 
 exports.get = async (req, res) => {
   try {
+    if (!await checkAuthorization(req)) {
+      return res.status(401).json({
+        "success": false,
+        "data": {
+          "message": "Unauthorized"
+        }
+      })
+    }
+
     const bots = await Bot.find({})
 
     return res.status(200).json({
       success: true,
       data: {
-        message: "User added successfully",
+        message: "Bots retrieved successfully",
         bots: bots,
       },
     })
@@ -24,6 +35,15 @@ exports.get = async (req, res) => {
 
 exports.add = async (req, res) => {
   try {
+    if (!await checkAuthorization(req)) {
+      return res.status(401).json({
+        "success": false,
+        "data": {
+          "message": "Unauthorized"
+        }
+      })
+    }
+
     if (!req.body.name) {
       return res.status(400).json({
         success: false,
@@ -69,6 +89,15 @@ exports.add = async (req, res) => {
 
 exports.addEntry = async (req, res) => {
   try {
+    if (!await checkAuthorization(req)) {
+      return res.status(401).json({
+        "success": false,
+        "data": {
+          "message": "Unauthorized"
+        }
+      })
+    }
+
     if (!req.body.botID) {
       return res.status(400).json({
         success: false,
@@ -123,6 +152,15 @@ exports.addEntry = async (req, res) => {
 
 exports.editEntries = async (req, res) => {
   try {
+    if (!await checkAuthorization(req)) {
+      return res.status(401).json({
+        "success": false,
+        "data": {
+          "message": "Unauthorized"
+        }
+      })
+    }
+
     if (!req.body.botID) {
       return res.status(400).json({
         success: false,

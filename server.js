@@ -4,7 +4,6 @@ const moment = require("moment")
 
 const app = require("./conf/express")
 const mongo = require("./conf/mongo")
-const logger = require("./conf/logger")
 
 const routerUtils = require("./utils/router")
 
@@ -13,10 +12,10 @@ const botRouter = require("./router/bot")
 
 mongo.connect()
 
-let BLACKLIST = []
+const BLACKLIST = []
 
 app.all("*", function (req, res, next) {
-  let ipAddress =
+  const ipAddress =
     req.ipInfo.ip.substr(0, 7) == "::ffff:"
       ? req.ipInfo.ip.substr(7)
       : req.ipInfo.ip

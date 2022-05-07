@@ -14,7 +14,7 @@ exports.getUser = async (data) => {
 const getUser = async (data) => {
   return new Promise(async (resolve) => {
       try {
-          let user = await User.findOne(data);
+          const user = await User.findOne(data);
           if (!user) {
               return resolve({
                   exist: false,
@@ -48,7 +48,7 @@ exports.register = async (req, res) => {
           );
       }
 
-      let email = req.body.email.trim();
+      const email = req.body.email.trim();
       if (!validator.validate(email)) {
           return res.status(403).json(
               {
@@ -60,7 +60,7 @@ exports.register = async (req, res) => {
           );
       }
 
-      let isEmailExists = await getUser({ email });
+      const isEmailExists = await getUser({ email });
       if (isEmailExists.exist) {
           return res.status(403).json(
               {
@@ -72,7 +72,7 @@ exports.register = async (req, res) => {
           );
       }
 
-      let password = req.body.password.trim();
+      const password = req.body.password.trim();
       if (!AuthUtils.isValidPassword(password)) {
           return res.status(403).json(
               {
@@ -83,16 +83,16 @@ exports.register = async (req, res) => {
               }
           );
       }
-      let hashedPassword = await bcrypt.hashSync(password, SALTROUNDS);
+      const hashedPassword = await bcrypt.hashSync(password, SALTROUNDS);
 
 
-      let newUser = new User(
+      const newUser = new User(
           {
               "email": email.toLowerCase(),
               "password": hashedPassword,
           }
       );
-      let user = await newUser.save();
+      const user = await newUser.save();
       return res.status(200).json(
           {
               "success": true,
@@ -129,9 +129,9 @@ exports.login = async (req, res) => {
           );
       }
 
-      let email = req.body.email.trim().toLowerCase();
-      let userWithGivenEmail = await getUser({email: email});
-      let password = req.body.password;
+      const email = req.body.email.trim().toLowerCase();
+      const userWithGivenEmail = await getUser({email: email});
+      const password = req.body.password;
       if (!userWithGivenEmail.exist || !userWithGivenEmail.user) {
           return res.status(403).json(
               {
@@ -143,7 +143,7 @@ exports.login = async (req, res) => {
           );
       }
 
-      let user = userWithGivenEmail.user;
+      const user = userWithGivenEmail.user;
       if (!bcrypt.compareSync(password, user.password)) {
           return res.status(403).json(
               {
@@ -185,8 +185,8 @@ exports.login = async (req, res) => {
 
 exports.check = async (req, res) => {
     try {
-        let token = req.headers.authorization;
-        let user = await User.findOne({ "token.token": token });
+        const token = req.headers.authorization;
+        const user = await User.findOne({ "token.token": token });
 
         if (!user) {
             return res.status(404).json(
