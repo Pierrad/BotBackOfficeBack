@@ -6,6 +6,10 @@ router.get("/", function (req, res) {
   BotCtrl.get(req, res)
 })
 
+router.get("/:id", function (req, res) {
+  BotCtrl.getById(req, res)
+})
+
 router.post("/", function (req, res) {
   BotCtrl.add(req, res)
 })

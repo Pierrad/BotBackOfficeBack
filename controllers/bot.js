@@ -33,6 +33,47 @@ exports.get = async (req, res) => {
   }
 }
 
+exports.getById = async (req, res) => {
+  try {
+    if (!await checkAuthorization(req)) {
+      return res.status(401).json({
+        "success": false,
+        "data": {
+          "message": "Unauthorized"
+        }
+      })
+    }
+
+    const bot = await Bot.findById(req.params.id)
+
+    if (!bot) {
+      return res.status(404).json({
+        "success": false,
+        "data": {
+          "message": "Bot not found"
+        }
+      })
+    }
+
+    return res.status(200).json({
+      success: true,
+      data: {
+        message: "Bot retrieved successfully",
+        bot: bot,
+      },
+    })
+
+  } catch (error) {
+    console.log(error)
+    return res.status(500).json({
+      success: false,
+      data: {
+        message: "Internal error",
+      },
+    })
+  }
+}
+
 exports.add = async (req, res) => {
   try {
     if (!await checkAuthorization(req)) {
