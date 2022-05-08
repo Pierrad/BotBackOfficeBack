@@ -15,4 +15,5 @@ npm run dev
 
 ## Notes
 
-Boilerplate from https://github.com/nexus9111/personal_api_boilerplate
+- Frontend of the project : https://github.com/Pierrad/BotBackOfficeFront
+- Boilerplate from https://github.com/nexus9111/personal_api_boilerplate
