@@ -14,6 +14,10 @@ router.post("/", function (req, res) {
   BotCtrl.add(req, res)
 })
 
+router.delete("/:id", function (req, res) {
+  BotCtrl.deleteById(req, res)
+})
+
 router.post("/add/entry", function (req, res) {
   BotCtrl.addEntry(req, res)
 })

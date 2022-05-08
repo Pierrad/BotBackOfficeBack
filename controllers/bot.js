@@ -128,6 +128,48 @@ exports.add = async (req, res) => {
   }
 }
 
+exports.deleteById = async (req, res) => {
+  try {
+    if (!await checkAuthorization(req)) {
+      return res.status(401).json({
+        "success": false,
+        "data": {
+          "message": "Unauthorized"
+        }
+      })
+    }
+
+    const bot = await Bot.findById(req.params.id)
+
+    if (!bot) {
+      return res.status(404).json({
+        "success": false,
+        "data": {
+          "message": "Bot not found"
+        }
+      })
+    }
+
+    await bot.remove()
+
+    return res.status(200).json({
+      success: true,
+      data: {
+        message: "Bot deleted successfully",
+      },
+    })
+
+  } catch (error) {
+    console.log(error)
+    return res.status(500).json({
+      success: false,
+      data: {
+        message: "Internal error",
+      },
+    })
+  }
+}
+
 exports.addEntry = async (req, res) => {
   try {
     if (!await checkAuthorization(req)) {
